@@ -18,6 +18,10 @@ public class Maze {
     private readonly Dictionary<ValueTuple<int, int>, bool[]> _mazeMap;
     private int _currX = 1;
     private int _currY = 1;
+    private int _left = 0;
+    private int _right = 1;
+    private int _up = 2;
+    private int _down = 3;
 
     public Maze(Dictionary<ValueTuple<int, int>, bool[]> mazeMap) {
         _mazeMap = mazeMap;
@@ -30,6 +34,11 @@ public class Maze {
     /// </summary>
     public void MoveLeft() {
         // FILL IN CODE
+        if(CanMove(_left)){
+            _currX -= 1;
+        }else{
+            Console.WriteLine($"Can't move left at x={_currX}, y={_currY}");
+        }
     }
 
     /// <summary>
@@ -38,6 +47,11 @@ public class Maze {
     /// </summary>
     public void MoveRight() {
         // FILL IN CODE
+        if(CanMove(_right)){
+            _currX += 1;
+        }else{
+            Console.WriteLine($"Can't move right at x={_currX}, y={_currY}");
+        }
     }
 
     /// <summary>
@@ -46,6 +60,11 @@ public class Maze {
     /// </summary>
     public void MoveUp() {
         // FILL IN CODE
+        if(CanMove(_up)){
+            _currY -= 1;
+        }else{
+            Console.WriteLine($"Can't move up at x={_currX}, y={_currY}");
+        }
     }
 
     /// <summary>
@@ -54,9 +73,19 @@ public class Maze {
     /// </summary>
     public void MoveDown() {
         // FILL IN CODE
+        if(CanMove(_down)){
+            _currY += 1;
+        }else{
+            Console.WriteLine($"Can't move down at x={_currX}, y={_currY}");
+        }
     }
 
     public void ShowStatus() {
         Console.WriteLine($"Current location (x={_currX}, y={_currY})");
+        Console.WriteLine(_mazeMap[(1,1)][1]);
+    }
+
+    private bool CanMove(int tileMovementPossibilityIndex) {
+        return(_mazeMap[(_currX,_currY)][tileMovementPossibilityIndex]);
     }
 }

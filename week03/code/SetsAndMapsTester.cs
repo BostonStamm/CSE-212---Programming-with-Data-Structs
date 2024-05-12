@@ -1,4 +1,6 @@
 using System.Text.Json;
+using System.Text.Json.Nodes;
+using System.Threading.Tasks.Dataflow;
 
 public static class SetsAndMapsTester {
     public static void Run() {
@@ -111,6 +113,19 @@ public static class SetsAndMapsTester {
         // To display the pair correctly use something like:
         // Console.WriteLine($"{word} & {pair}");
         // Each pair of words should displayed on its own line.
+        var set = words.ToHashSet();
+        foreach(string word in set){
+            var pair = $"{word[1]}{word[0]}";
+            if(word == pair){
+                set.Remove(word);
+            }else if(set.Contains(pair)){
+                Console.WriteLine($"{word} & {pair}");
+                set.Remove(word);
+                set.Remove(pair);
+            }else{
+                set.Remove(word);
+            }
+        }
     }
 
     /// <summary>
@@ -131,7 +146,10 @@ public static class SetsAndMapsTester {
         var degrees = new Dictionary<string, int>();
         foreach (var line in File.ReadLines(filename)) {
             var fields = line.Split(",");
-            // Todo Problem 2 - ADD YOUR CODE HERE
+            if(!degrees.ContainsKey(fields[3])){
+                degrees.Add(fields[3], 0);
+            }
+            degrees[fields[3]] += 1;
         }
 
         return degrees;
@@ -158,6 +176,21 @@ public static class SetsAndMapsTester {
     /// #############
     private static bool IsAnagram(string word1, string word2) {
         // Todo Problem 3 - ADD YOUR CODE HERE
+        word1 = String.Concat(word1.Split(" ")).ToLower();
+        word2 = String.Concat(word2.Split(" ")).ToLower();
+        if(word1.Length != word2.Length){
+            return false;
+        }
+        foreach(char letter in word1){
+            if(word2.Contains(letter)){
+                word2 = word2.Remove(word2.IndexOf(letter), 1);
+            }else{
+                return false;
+            }
+        }
+        if(string.IsNullOrWhiteSpace(word2)){
+            return true;
+        }
         return false;
     }
 
@@ -235,5 +268,10 @@ public static class SetsAndMapsTester {
         // 1. Add code in FeatureCollection.cs to describe the JSON using classes and properties 
         // on those classes so that the call to Deserialize above works properly.
         // 2. Add code below to print out each place a earthquake has happened today and its magitude.
+        Console.WriteLine(featureCollection.Features[0].Properties.mag);
+        foreach(Feature earthquake in featureCollection.Features){
+            Console.WriteLine($"{earthquake.Properties.Place} - Mag {earthquake.Properties.mag}");
+        }
+        
     }
 }
