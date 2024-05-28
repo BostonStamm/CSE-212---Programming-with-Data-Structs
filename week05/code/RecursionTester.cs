@@ -147,7 +147,11 @@ public static class RecursionTester {
     /// </summary>
     public static int SumSquaresRecursive(int n) {
         // TODO Start Problem 1
-        return 0;
+        if(n <= 0){
+            return 0;
+        }else{
+            return SumSquaresRecursive(n-1) + n * n;
+        }
     }
 
     /// <summary>
@@ -171,6 +175,7 @@ public static class RecursionTester {
     /// </summary>
     public static void PermutationsChoose(string letters, int size, string word = "") {
         // TODO Start Problem 2
+        if(letters.Length / letters.Length - size)
     }
 
     /// <summary>
